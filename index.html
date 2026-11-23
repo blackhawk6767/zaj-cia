@@ -1,0 +1,397 @@
+ 
+
+<!DOCTYPE html> 
+
+<html lang="pl"> 
+
+<head> 
+
+<meta charset="UTF-8"> 
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+
+<title>GameZone - Biblioteka gier</title> 
+
+<style> 
+
+* { 
+
+    box-sizing: border-box; 
+
+} 
+
+body { 
+
+    margin: 0; 
+
+    font-family: Arial, sans-serif; 
+
+    background: #101923; 
+
+    color: white; 
+
+} 
+
+header { 
+
+    background: #171f2b; 
+
+    padding: 25px; 
+
+    text-align: center; 
+
+    border-bottom: 2px solid #2879ae; 
+
+} 
+
+header h1 { 
+
+    color: #66c0f4; 
+
+    margin: 0; 
+
+    font-size: 36px; 
+
+} 
+
+header p { 
+
+    color: #b8c6d4; 
+
+} 
+
+.search { 
+
+    text-align: center; 
+
+    padding: 25px; 
+
+} 
+
+.search input { 
+
+    width: 80%; 
+
+    max-width: 500px; 
+
+    padding: 14px; 
+
+    border-radius: 7px; 
+
+    border: none; 
+
+    background: #263849; 
+
+    color: white; 
+
+    font-size: 16px; 
+
+} 
+
+.container { 
+
+    max-width: 1400px; 
+
+    margin: auto; 
+
+    padding: 20px; 
+
+} 
+
+.games { 
+
+    display: grid; 
+
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+
+    gap: 20px; 
+
+} 
+
+.game { 
+
+    background: #1b2838; 
+
+    border-radius: 10px; 
+
+    overflow: hidden; 
+
+    transition: 0.25s; 
+
+    border: 1px solid #30465c; 
+
+} 
+
+.game:hover { 
+
+    transform: translateY(-6px); 
+
+    box-shadow: 0 8px 20px #0009; 
+
+    border-color: #66c0f4; 
+
+} 
+
+.game img { 
+
+    width: 100%; 
+
+    height: 135px; 
+
+    object-fit: cover; 
+
+    background: #263849; 
+
+} 
+
+.game-content { 
+
+    padding: 14px; 
+
+} 
+
+.game h3 { 
+
+    margin: 0 0 10px; 
+
+    color: #66c0f4; 
+
+} 
+
+.game p { 
+
+    color: #c2cbd4; 
+
+    font-size: 13px; 
+
+    line-height: 1.5; 
+
+    min-height: 58px; 
+
+} 
+
+.game button { 
+
+    background: #2879ae; 
+
+    color: white; 
+
+    border: none; 
+
+    padding: 10px; 
+
+    width: 100%; 
+
+    border-radius: 5px; 
+
+    cursor: pointer; 
+
+} 
+
+.game button:hover { 
+
+    background: #3d9bd8; 
+
+} 
+
+footer { 
+
+    text-align: center; 
+
+    padding: 25px; 
+
+    color: #8da4b9; 
+
+} 
+
+</style> 
+
+</head> 
+
+<body> 
+
+  
+
+<header> 
+
+    <h1>🎮 GAMEZONE</h1> 
+
+    <p>Twoja biblioteka najlepszych gier!</p> 
+
+</header> 
+
+  
+
+<div class="search"> 
+
+    <input type="text" id="search" 
+
+    placeholder="🔍 Szukaj gry..." 
+
+    oninput="searchGames()"> 
+
+</div> 
+
+  
+
+<div class="container"> 
+
+    <div class="games" id="games"></div> 
+
+</div> 
+
+  
+
+<footer> 
+
+    © 2026 GameZone | Wszystkie prawa zastrzeżone 
+
+</footer> 
+
+  
+
+<script> 
+
+const gameData = [ 
+
+["Counter-Strike 2","Taktyczna strzelanka multiplayer."], 
+
+["Minecraft","Buduj, odkrywaj i przetrwaj w świecie bloków."], 
+
+["GTA V","Otwarty świat pełen przygód i akcji."], 
+
+["Fortnite","Walcz o przetrwanie na ogromnej mapie."], 
+
+["The Witcher 3","Wciel się w Geralta i odkrywaj fantastyczny świat."], 
+
+["Cyberpunk 2077","Odkryj futurystyczne Night City."], 
+
+["Red Dead Redemption 2","Przeżyj historię na Dzikim Zachodzie."], 
+
+["Elden Ring","Wymagająca przygoda w mrocznym świecie fantasy."], 
+
+["Rust","Przetrwaj na wyspie pełnej niebezpieczeństw."], 
+
+["ARK Survival","Oswajaj dinozaury i buduj swoją bazę."], 
+
+["Among Us","Odkryj, kto jest zdrajcą wśród załogi."], 
+
+["Rocket League","Połącz piłkę nożną z samochodami."], 
+
+["Forza Horizon 5","Ścigaj się po pięknym Meksyku."], 
+
+["Euro Truck Simulator 2","Zostań kierowcą ciężarówki."], 
+
+["Phasmophobia","Poluj na duchy w nawiedzonych miejscach."], 
+
+["Terraria","Eksploruj, walcz i twórz w świecie 2D."], 
+
+["Stardew Valley","Prowadź własną farmę i poznawaj mieszkańców."], 
+
+["Left 4 Dead 2","Walcz z hordami zombie."], 
+
+["Dying Light","Przetrwaj w mieście opanowanym przez zombie."], 
+
+["The Forest","Przetrwaj w lesie pełnym tajemnic."], 
+
+["Subnautica","Odkrywaj podwodny obcy świat."], 
+
+["Hogwarts Legacy","Poznaj magiczny świat czarodziejów."], 
+
+["Farming Simulator 25","Zarządzaj własnym gospodarstwem."], 
+
+["Dead by Daylight","Ucieknij przed niebezpiecznym zabójcą."], 
+
+["Apex Legends","Rywalizuj w dynamicznym battle royale."], 
+
+["Palworld","Łap stworki, buduj i walcz."], 
+
+["Sea of Thieves","Zostań piratem i odkrywaj morza."], 
+
+["DayZ","Przetrwaj w świecie opanowanym przez zombie."], 
+
+["Hollow Knight","Odkryj tajemnicze podziemne królestwo."], 
+
+["The Sims 4","Twórz postacie i kieruj ich życiem."], 
+
+["Geometry Dash","Pokonuj trudne poziomy w rytm muzyki."] 
+
+]; 
+
+  
+
+const games = document.getElementById("games"); 
+
+  
+
+gameData.forEach((game, index) => { 
+
+    const number = index + 1; 
+
+    const card = document.createElement("div"); 
+
+    card.className = "game"; 
+
+  
+
+    card.innerHTML = ` 
+
+        <img src="grafiki/gra${number}.jpg" 
+
+             alt="${game[0]}" 
+
+             onerror="this.style.background='#263849'"> 
+
+        <div class="game-content"> 
+
+            <h3>${game[0]}</h3> 
+
+            <p>${game[1]}</p> 
+
+            <button onclick="alert('Wybrano: ${game[0]}')"> 
+
+                Zobacz grę 
+
+            </button> 
+
+        </div> 
+
+    `; 
+
+  
+
+    games.appendChild(card); 
+
+}); 
+
+  
+
+function searchGames() { 
+
+    const value = document.getElementById("search") 
+
+        .value.toLowerCase(); 
+
+  
+
+    document.querySelectorAll(".game").forEach(card => { 
+
+        card.style.display = 
+
+            card.innerText.toLowerCase().includes(value) 
+
+            ? "" : "none"; 
+
+    }); 
+
+} 
+
+</script> 
+
+  
+
+</body> 
+
+</html> 
+
+ 
