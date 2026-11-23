@@ -1,397 +1,156 @@
- 
 
-<!DOCTYPE html> 
-
-<html lang="pl"> 
-
-<head> 
-
-<meta charset="UTF-8"> 
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-
-<title>GameZone - Biblioteka gier</title> 
-
-<style> 
-
-* { 
-
-    box-sizing: border-box; 
-
-} 
-
-body { 
-
-    margin: 0; 
-
-    font-family: Arial, sans-serif; 
-
-    background: #101923; 
-
-    color: white; 
-
-} 
-
-header { 
-
-    background: #171f2b; 
-
-    padding: 25px; 
-
-    text-align: center; 
-
-    border-bottom: 2px solid #2879ae; 
-
-} 
-
-header h1 { 
-
-    color: #66c0f4; 
-
-    margin: 0; 
-
-    font-size: 36px; 
-
-} 
-
-header p { 
-
-    color: #b8c6d4; 
-
-} 
-
-.search { 
-
-    text-align: center; 
-
-    padding: 25px; 
-
-} 
-
-.search input { 
-
-    width: 80%; 
-
-    max-width: 500px; 
-
-    padding: 14px; 
-
-    border-radius: 7px; 
-
-    border: none; 
-
-    background: #263849; 
-
-    color: white; 
-
-    font-size: 16px; 
-
-} 
-
-.container { 
-
-    max-width: 1400px; 
-
-    margin: auto; 
-
-    padding: 20px; 
-
-} 
-
-.games { 
-
-    display: grid; 
-
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
-
-    gap: 20px; 
-
-} 
-
-.game { 
-
-    background: #1b2838; 
-
-    border-radius: 10px; 
-
-    overflow: hidden; 
-
-    transition: 0.25s; 
-
-    border: 1px solid #30465c; 
-
-} 
-
-.game:hover { 
-
-    transform: translateY(-6px); 
-
-    box-shadow: 0 8px 20px #0009; 
-
-    border-color: #66c0f4; 
-
-} 
-
-.game img { 
-
-    width: 100%; 
-
-    height: 135px; 
-
-    object-fit: cover; 
-
-    background: #263849; 
-
-} 
-
-.game-content { 
-
-    padding: 14px; 
-
-} 
-
-.game h3 { 
-
-    margin: 0 0 10px; 
-
-    color: #66c0f4; 
-
-} 
-
-.game p { 
-
-    color: #c2cbd4; 
-
-    font-size: 13px; 
-
-    line-height: 1.5; 
-
-    min-height: 58px; 
-
-} 
-
-.game button { 
-
-    background: #2879ae; 
-
-    color: white; 
-
-    border: none; 
-
-    padding: 10px; 
-
-    width: 100%; 
-
-    border-radius: 5px; 
-
-    cursor: pointer; 
-
-} 
-
-.game button:hover { 
-
-    background: #3d9bd8; 
-
-} 
-
-footer { 
-
-    text-align: center; 
-
-    padding: 25px; 
-
-    color: #8da4b9; 
-
-} 
-
-</style> 
-
-</head> 
-
-<body> 
-
-  
-
-<header> 
-
-    <h1>🎮 GAMEZONE</h1> 
-
-    <p>Twoja biblioteka najlepszych gier!</p> 
-
-</header> 
-
-  
-
-<div class="search"> 
-
-    <input type="text" id="search" 
-
-    placeholder="🔍 Szukaj gry..." 
-
-    oninput="searchGames()"> 
-
-</div> 
-
-  
-
-<div class="container"> 
-
-    <div class="games" id="games"></div> 
-
-</div> 
-
-  
-
-<footer> 
-
-    © 2026 GameZone | Wszystkie prawa zastrzeżone 
-
-</footer> 
-
-  
-
-<script> 
-
-const gameData = [ 
-
-["Counter-Strike 2","Taktyczna strzelanka multiplayer."], 
-
-["Minecraft","Buduj, odkrywaj i przetrwaj w świecie bloków."], 
-
-["GTA V","Otwarty świat pełen przygód i akcji."], 
-
-["Fortnite","Walcz o przetrwanie na ogromnej mapie."], 
-
-["The Witcher 3","Wciel się w Geralta i odkrywaj fantastyczny świat."], 
-
-["Cyberpunk 2077","Odkryj futurystyczne Night City."], 
-
-["Red Dead Redemption 2","Przeżyj historię na Dzikim Zachodzie."], 
-
-["Elden Ring","Wymagająca przygoda w mrocznym świecie fantasy."], 
-
-["Rust","Przetrwaj na wyspie pełnej niebezpieczeństw."], 
-
-["ARK Survival","Oswajaj dinozaury i buduj swoją bazę."], 
-
-["Among Us","Odkryj, kto jest zdrajcą wśród załogi."], 
-
-["Rocket League","Połącz piłkę nożną z samochodami."], 
-
-["Forza Horizon 5","Ścigaj się po pięknym Meksyku."], 
-
-["Euro Truck Simulator 2","Zostań kierowcą ciężarówki."], 
-
-["Phasmophobia","Poluj na duchy w nawiedzonych miejscach."], 
-
-["Terraria","Eksploruj, walcz i twórz w świecie 2D."], 
-
-["Stardew Valley","Prowadź własną farmę i poznawaj mieszkańców."], 
-
-["Left 4 Dead 2","Walcz z hordami zombie."], 
-
-["Dying Light","Przetrwaj w mieście opanowanym przez zombie."], 
-
-["The Forest","Przetrwaj w lesie pełnym tajemnic."], 
-
-["Subnautica","Odkrywaj podwodny obcy świat."], 
-
-["Hogwarts Legacy","Poznaj magiczny świat czarodziejów."], 
-
-["Farming Simulator 25","Zarządzaj własnym gospodarstwem."], 
-
-["Dead by Daylight","Ucieknij przed niebezpiecznym zabójcą."], 
-
-["Apex Legends","Rywalizuj w dynamicznym battle royale."], 
-
-["Palworld","Łap stworki, buduj i walcz."], 
-
-["Sea of Thieves","Zostań piratem i odkrywaj morza."], 
-
-["DayZ","Przetrwaj w świecie opanowanym przez zombie."], 
-
-["Hollow Knight","Odkryj tajemnicze podziemne królestwo."], 
-
-["The Sims 4","Twórz postacie i kieruj ich życiem."], 
-
-["Geometry Dash","Pokonuj trudne poziomy w rytm muzyki."] 
-
-]; 
-
-  
-
-const games = document.getElementById("games"); 
-
-  
-
-gameData.forEach((game, index) => { 
-
-    const number = index + 1; 
-
-    const card = document.createElement("div"); 
-
-    card.className = "game"; 
-
-  
-
-    card.innerHTML = ` 
-
-        <img src="grafiki/gra${number}.jpg" 
-
-             alt="${game[0]}" 
-
-             onerror="this.style.background='#263849'"> 
-
-        <div class="game-content"> 
-
-            <h3>${game[0]}</h3> 
-
-            <p>${game[1]}</p> 
-
-            <button onclick="alert('Wybrano: ${game[0]}')"> 
-
-                Zobacz grę 
-
-            </button> 
-
-        </div> 
-
-    `; 
-
-  
-
-    games.appendChild(card); 
-
-}); 
-
-  
-
-function searchGames() { 
-
-    const value = document.getElementById("search") 
-
-        .value.toLowerCase(); 
-
-  
-
-    document.querySelectorAll(".game").forEach(card => { 
-
-        card.style.display = 
-
-            card.innerText.toLowerCase().includes(value) 
-
-            ? "" : "none"; 
-
-    }); 
-
-} 
-
-</script> 
-
-  
-
-</body> 
-
-</html> 
-
- 
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moje 31 gier</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 25px;
+  background: #101522;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+h1 { text-align: center; color: #65b5ff; }
+.top {
+  text-align: center;
+  margin: 20px;
+}
+button {
+  background: #268cff;
+  color: white;
+  border: 0;
+  padding: 11px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 5px;
+}
+button:hover { background: #0865ce; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 18px;
+  max-width: 1200px;
+  margin: auto;
+}
+.game {
+  background: #202b40;
+  border-radius: 14px;
+  padding: 12px;
+  text-align: center;
+}
+.game img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  background: #111827;
+  border-radius: 9px;
+}
+.game input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 7px;
+  border: none;
+}
+.game input[type="file"] {
+  width: 100%;
+  font-size: 11px;
+}
+.number { color: #8ebfff; }
+</style>
+</head>
+<body>
+
+<h1>🎮 MOJE GRY</h1>
+<div class="top">
+  <p>Moja kolekcja 31 gier</p>
+  <button onclick="addGame()">➕ Dodaj grę</button>
+</div>
+
+<div class="grid" id="games"></div>
+
+<script>
+const games = document.getElementById("games");
+
+function createGame(name = "", photo = "") {
+  const card = document.createElement("div");
+  card.className = "game";
+
+  const number = games.children.length + 1;
+
+  const img = document.createElement("img");
+  img.src = photo || "";
+  img.alt = "Obraz gry";
+
+  const title = document.createElement("h3");
+  title.textContent = "Gra " + number;
+  title.className = "number";
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.placeholder = "Wpisz nazwę gry";
+  input.value = name;
+  input.addEventListener("input", () => {
+    title.textContent = input.value || "Gra " + number;
+    save();
+  });
+
+  const file = document.createElement("input");
+  file.type = "file";
+  file.accept = "image/*";
+
+  file.addEventListener("change", () => {
+    const selected = file.files[0];
+    if (!selected) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      img.src = reader.result;
+      save();
+    };
+    reader.readAsDataURL(selected);
+  });
+
+  card.append(img, title, input, file);
+  games.appendChild(card);
+}
+
+function addGame() {
+  createGame();
+  save();
+}
+
+function save() {
+  const data = [...games.children].map(card => ({
+    name: card.querySelector('input[type="text"]').value,
+    photo: card.querySelector("img").src
+  }));
+  try {
+    localStorage.setItem("mojeGry", JSON.stringify(data));
+  } catch (e) {
+    alert("Brak miejsca na zapis zdjęć. Spróbuj użyć mniejszych obrazków.");
+  }
+}
+
+function load() {
+  let data;
+  try {
+    data = JSON.parse(localStorage.getItem("mojeGry"));
+  } catch (e) {}
+
+  if (Array.isArray(data)) {
+    data.forEach(game => createGame(game.name, game.photo));
+  } else {
+    for (let i = 0; i < 31; i++) createGame();
+  }
+}
+
+load();
+</script>
+
+</body>
+</html>
